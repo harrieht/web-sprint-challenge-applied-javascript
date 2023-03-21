@@ -4,7 +4,7 @@ const Card = (article) => {
 
   const headline = document.createElement('div');
   headline.classList.add('headline');
-  headline.textContent = article.headeline;
+  headline.textContent = article.headline;
   card.appendChild(headline);
 
   const author = document.createElement('div');
