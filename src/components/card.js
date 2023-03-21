@@ -1,4 +1,35 @@
 const Card = (article) => {
+  const card = document.createElement('div');
+  card.classList.add('card');
+
+  const headline = document.createElement('div');
+  headline.classList.add('headline');
+  headline.textContent = article.headeline;
+  card.appendChild(headline);
+
+  const author = document.createElement('div');
+  author.classList.add('author');
+  card.appendChild(author);
+
+  const imgContainer = document.createElement('div');
+  imgContainer.classList.add('img-container');
+  author.appendChild(imgContainer);
+
+  const img = document.createElement('img');
+  img.src = article.authorPhoto;
+  imgContainer.appendChild(img);
+
+  const authorName = document.createElement('span');
+  authorName.textContent = `By ${article.authorName}`;
+  author.appendChild(authorName);
+
+  card.addEventListener('click', () => {
+    console.log(article.headline);
+  });
+
+  return card;
+
+
   // TASK 5
   // ---------------------
   // Implement this function, which should return the markup you see below.
@@ -20,6 +51,18 @@ const Card = (article) => {
 }
 
 const cardAppender = (selector) => {
+  const endpoint = 'http://localhost:5001/api/articles';
+
+  fetch(endpoint)
+  .then(response => response.json())
+  .then(data => {
+    data.articles.forEach(article => {
+      const card = Card(article);
+      document.querySelector(selector).appendChild(card);
+    });
+  })
+  .catch(error => console.error(error));
+
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
@@ -28,6 +71,6 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
-}
+};
 
 export { Card, cardAppender }
