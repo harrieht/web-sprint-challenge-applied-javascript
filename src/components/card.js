@@ -1,3 +1,5 @@
+import axios from "axios";
+
 const Card = (article) => {
   const card = document.createElement('div');
   card.classList.add('card');
@@ -50,18 +52,13 @@ const Card = (article) => {
   //
 }
 
-const cardAppender = (selector) => {
-  const endpoint = 'http://localhost:5001/api/articles';
 
-  fetch(endpoint)
-  .then(response => response.json())
-  .then(data => {
-    data.articles.forEach(article => {
-      const card = Card(article);
-      document.querySelector(selector).appendChild(card);
-    });
-  })
-  .catch(error => console.error(error));
+
+const cardAppender = async (selector) => {
+    const res = await axios.get("http://localhost:5001/api/articles");
+    const articles = Object.values(res.data.articles).flat();
+    const container = document.querySelector(selector);
+    articles.forEach(article => container.appendChild(Card(article)));
 
   // TASK 6
   // ---------------------
